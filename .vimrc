@@ -45,6 +45,7 @@ let s:colorscheme_plugin = 'jacoborus/tender'
 set number                        " display line number
 set whichwrap=b,s,h,l,<,>,[,],~   " automatically wrap left and right
 set tabstop=4                     " tab width
+set shiftwidth=4
 set backspace=start,eol,indent    " backspace and delete problems
 set cursorline                    " hightlite cursor line
 set ambiwidth=double              " for double-byte character
@@ -170,7 +171,12 @@ cnoremap <C-j> <C-e><C-u><BS><C-d>zz
 nnoremap <C-k> <C-u>zz
 inoremap <C-k> <ESC><C-u>zza
 cnoremap <C-k> <C-e><C-u><BS><C-u>zz
-
+" move to head
+nnoremap <C-a> ^
+inoremap <C-a> <ESC>^i
+" move to tail
+nnoremap <C-e> $
+inoremap <C-e> <ESC>$a
 " undo
 nnoremap <C-z> u
 inoremap <C-z> <ESC>ua
@@ -190,8 +196,8 @@ inoremap <C-v> <ESC>pa
 nnoremap <C-f> /\v
 inoremap <C-f> <ESC>/\v
 
-" 
-cnoremap <C-a> <C-b>
-
+" terminal
+nnoremap <C-t> :term bash<CR>
+inoremap <C-t> <ESC>:term bash<CR>
 
 
