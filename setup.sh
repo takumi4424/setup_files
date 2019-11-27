@@ -44,9 +44,10 @@ echo "alias open='xdg-open'" >> $bashrc
 echo >> $bashrc
 
 line_sep
-sudo apt update && sudo apt upgrade -y
+sudo apt update
+sudo apt upgrade -y
 line_sep
-sudo apt install vim net-tools openssh-server curl xsel
+sudo apt install -y vim net-tools openssh-server curl xsel
 
 line_sep
 yes_or_no 'set proxy?' || {
@@ -73,7 +74,7 @@ yes_or_no 'install pyenv?' || {
         echo 'pyenv is already installed.'
     else
         echo 'no'
-        sudo apt install libreadline-dev libffi-dev
+        sudo apt install -y libreadline-dev libffi-dev
         git clone http://github.com/yyuu/pyenv.git ~/.pyenv
     fi
     echo '# pyenv settings' >> $bashrc
