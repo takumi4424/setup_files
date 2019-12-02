@@ -42,6 +42,7 @@ echo "alias sudo='sudo -E '" >> $bashrc
 echo "alias pbcopy='xsel --clipboard --input'" >> $bashrc
 echo "alias open='xdg-open'" >> $bashrc
 echo >> $bashrc
+alias sudo='sudo -E '
 
 line_sep
 sudo apt update
@@ -55,15 +56,23 @@ yes_or_no 'set proxy?' || {
         echo -n 'type proxy address (http://<host>:<port>): '
         read proxy
         yes_or_no "'$proxy' is ok?" || {
+			# for apt
             echo "Acquire::http::Proxy \"$proxy\";" | sudo tee /etc/apt/apt.conf
             echo "Acquire::https::Proxy \"$proxy\";" | sudo tee -a /etc/apt/apt.conf
             echo "Acquire::ftp::Proxy \"$proxy\";" | sudo tee -a /etc/apt/apt.conf
+            # for snap
+			sudo snap set system proxy.http="$proxy"
+			sudo snap set system proxy.https="$proxy"
+			# for .bashrc
             echo '# proxy settings' >> $bashrc
             echo "export http_proxy=$proxy" >> $bashrc
             echo 'export https_proxy=$http_proxy' >> $bashrc
             echo 'export ftp_proxy=$http_proxy' >> $bashrc
             echo >> $bashrc
-            break
+            export http_proxy=$proxy
+	    export https_proxy=$proxy
+	    export ftp_proxy=$proxy
+	    break
         }
     done
 }
@@ -107,12 +116,20 @@ yes_or_no 'install VSCode?' || {
     if [ -n "$(which code)" ]; then
         echo 'VSCode is already installed.'
     else
-        curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > ./microsoft.gpg
-        sudo install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/
-        sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
-        sudo apt update
-        sudo apt install -y code
+        sudo snap install --classic code
     fi
+}
+
+line_sep
+yes_or_no 'install n package system?' || {
+	sudo apt install nodejs npm
+	if [ -n "$http_proxy" ]; then
+		sudo npm -g config set proxy "$http_proxy"
+		sudo npm -g config set https-proxy "$https_proxy"
+		sudo npm -g config set registry "http://registry.npmjs.org/"
+	fi
+	sudo npm install -g n
+	sudo apt purge nodejs npm
 }
 
 if [ -f /opt/ros/melodic/setup.bash ]; then
