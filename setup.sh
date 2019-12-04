@@ -48,7 +48,7 @@ line_sep
 sudo apt update
 sudo apt upgrade -y
 line_sep
-sudo apt install -y vim net-tools openssh-server curl xsel
+sudo apt install -y vim net-tools openssh-server curl xsel apt-transport-https ca-certificates
 
 line_sep
 yes_or_no 'set proxy?' || {
@@ -132,6 +132,24 @@ yes_or_no 'install n package system?' || {
 	sudo apt purge nodejs npm
 }
 
+line_sep
+yes_or_no 'install docker?' || {
+	# install docker
+	sudo apt remove docker docker-engine docker.io containerd runc
+	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+	sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+	sudo apt update
+	sudo apt install -y docker-ce docker-ce-cli containerd.io
+
+	if [ -n $http_proxy ]; then
+		# proxy settings for docker
+		sudo mkdir -p /etc/systemd/system/docker.service.d
+		echo -e "[Service]\nEnvironment=\"HTTP_PROXY=$http_proxy\""  | sudo tee /etc/systemd/system/docker.service.d/http-proxy.conf
+		echo -e "[Service]\nEnvironment=\"HTTPS_PROXY=$https_proxy\"" | sudo tee /etc/systemd/system/docker.service.d/https-proxy.conf
+		sudo systemctl daemon-reload
+		sudo service docker restart 
+	fi
+}
 if [ -f /opt/ros/melodic/setup.bash ]; then
     echo '# ROS-melodic settings' >> $bashrc
     echo 'source /opt/ros/melodic/setup.bash' >> $bashrc
