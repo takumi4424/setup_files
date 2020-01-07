@@ -22,26 +22,11 @@ yes_or_no() {
     esac
 }
 
-color_pallet() {
-    for code in {0..15}; do
-        echo -ne "\033[38;5;${code}m $(printf %03d $code)"
-    done
-    echo
-    for code in {16..255}; do
-        echo -ne "\033[38;5;${code}m $(printf %03d $code)"
-        if [ $((($code - 16) % 12)) -eq 11 ]; then
-            echo
-        fi
-    done
-}
 
 bashrc=~/.bashrc-alpaca-san
 
-echo "# alias settings" > $bashrc
-echo "alias sudo='sudo -E '" >> $bashrc
-echo "alias pbcopy='xsel --clipboard --input'" >> $bashrc
-echo "alias open='xdg-open'" >> $bashrc
-echo >> $bashrc
+cat ./src/aliases.bashrc >> $bashrc
+source ./src/color_pallet.bashrc
 alias sudo='sudo -E '
 
 line_sep
@@ -86,11 +71,7 @@ yes_or_no 'install pyenv?' || {
         sudo apt install -y libreadline-dev libffi-dev
         git clone http://github.com/yyuu/pyenv.git ~/.pyenv
     fi
-    echo '# pyenv settings' >> $bashrc
-    echo 'export PYENV_ROOT="$HOME/.pyenv"' >> $bashrc
-    echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> $bashrc
-    echo -e 'if command -v pyenv 1>/dev/null 2>&1; then\n  eval "$(pyenv init -)"\nfi' >> $bashrc
-    echo >> $bashrc
+    cat ./src/pyenv.bashrc >> $bashrc
 }
 
 line_sep
@@ -155,13 +136,10 @@ yes_or_no 'install docker?' || {
 	fi
 }
 if [ -f /opt/ros/melodic/setup.bash ]; then
-    echo '# ROS-melodic settings' >> $bashrc
-    echo 'source /opt/ros/melodic/setup.bash' >> $bashrc
-    echo 'export TURTLEBOT3_MODEL=burger' >> $bashrc
-    echo 'alias srcros="source devel/setup.bash"' >> $bashrc
-    echo 'alias cm="catkin_make"' >> $bashrc
-    echo >> $bashrc
+    cat ./src/ros.bashrc >> $bashrc
 fi
+
+cat ./src/color_pallet.bashrc >> $bashrc
 
 echo >> ~/.bashrc
 echo "source $bashrc" >> ~/.bashrc
