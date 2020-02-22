@@ -37,7 +37,7 @@ sudo apt install -y vim net-tools openssh-server curl xsel apt-transport-https c
 
 line_sep
 yes_or_no 'set proxy?' || {
-    while true;do
+    while true; do
         echo -n 'type proxy address (http://<host>:<port>): '
         read proxy
         yes_or_no "'$proxy' is ok?" || {
@@ -55,9 +55,9 @@ yes_or_no 'set proxy?' || {
             echo 'export ftp_proxy=$http_proxy' >> $bashrc
             echo >> $bashrc
             export http_proxy=$proxy
-	    export https_proxy=$proxy
-	    export ftp_proxy=$proxy
-	    break
+            export https_proxy=$proxy
+            export ftp_proxy=$proxy
+            break
         }
     done
 }
@@ -77,7 +77,7 @@ yes_or_no 'install pyenv?' || {
 line_sep
 yes_or_no 'setup prompt?' || {
     color_pallet
-    while true;do
+    while true;　do
         echo -n 'type color number: '
         read ps_color
         if [ `expr "$ps_color" + 1 >/dev/null 2>&1 ; echo $?` -lt 2 ]; then
