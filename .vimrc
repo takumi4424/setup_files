@@ -72,8 +72,6 @@ if dein#load_state(s:bundle_dir)
 	call dein#begin(s:bundle_dir)
 	call dein#add(s:dein_path)
 
-	" filetree
-	call dein#add('scrooloose/nerdtree')
 	" status line
 	call dein#add('itchyny/lightline.vim')
 	" Colorscheme
