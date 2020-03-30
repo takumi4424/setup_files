@@ -130,6 +130,7 @@ yes_or_no 'install docker?' || {
 	fi
 }
 
+cat ./src/ros.bashrc >> $bashrc
 cat ./src/color_pallet.bashrc >> $bashrc
 
 echo >> ~/.bashrc
