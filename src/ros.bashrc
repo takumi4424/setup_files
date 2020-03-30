@@ -1,6 +1,8 @@
 # ROS-melodic settings
-source /opt/ros/melodic/setup.bash
-export TURTLEBOT3_MODEL=burger
+if [ -f /opt/ros/melodic/setup.bash ]; then
+	source /opt/ros/melodic/setup.bash
+fi
+alias killgazebo="killall -9 gazebo & killall -9 gzserver & killall -9 gzclient"
 function find_catkin_ws () {
 	curdir=${PWD}
 	while :
