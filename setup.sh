@@ -30,12 +30,6 @@ source ./src/color_pallet.bashrc
 alias sudo='sudo -E '
 
 line_sep
-sudo apt update
-sudo apt upgrade -y
-line_sep
-sudo apt install -y vim net-tools openssh-server curl xsel apt-transport-https ca-certificates
-
-line_sep
 yes_or_no 'set proxy?' || {
     while true; do
         echo -n 'type proxy address (http://<host>:<port>): '
@@ -58,6 +52,12 @@ yes_or_no 'set proxy?' || {
         }
     done
 }
+
+line_sep
+sudo apt update
+sudo apt upgrade -y
+line_sep
+sudo apt install -y vim net-tools openssh-server curl xsel apt-transport-https ca-certificates
 
 line_sep
 yes_or_no 'install pyenv?' || {
@@ -134,21 +134,14 @@ yes_or_no 'install docker?' || {
 
 line_sep
 yes_or_no 'disable IPv6?' || {
-<<<<<<< HEAD
-=======
-    sudo cp ./src/90-disable-ipv6.conf /etc/sysctl.d/
->>>>>>> 1683586b726dfa80430635500f304242040b8238
     if [ -f /etc/rc.local ]; then
         sudo mv /etc/rc.local /etc/rc.local.back
     fi
     sudo cp ./src/rc.local /etc/rc.local
     sudo chmod +x /etc/tc.local
-<<<<<<< HEAD
 
     sudo cp ./src/90-disable-ipv6.conf /etc/sysctl.d/
     sudo sysctl --system
-=======
->>>>>>> 1683586b726dfa80430635500f304242040b8238
 }
 
 cat ./src/ros.bashrc >> $bashrc
