@@ -24,8 +24,9 @@ yes_or_no() {
 
 
 bashrc=~/.bashrc-alpaca-san
+srcdir=`dirname $0`/src
 
-cat ./src/aliases.bashrc >> $bashrc
+cat $srcdir/aliases.bashrc >> $bashrc
 alias sudo='sudo -E '
 
 line_sep
@@ -70,12 +71,12 @@ yes_or_no 'install pyenv?' || {
         sudo apt install -y libreadline-dev libffi-dev
         git clone http://github.com/yyuu/pyenv.git ~/.pyenv
     fi
-    cat ./src/pyenv.bashrc >> $bashrc
+    cat $srcdir/pyenv.bashrc >> $bashrc
 }
 
 line_sep
 yes_or_no 'setup prompt?' || {
-    source ./src/color_pallet.bashrc
+    source $srcdir/color_pallet.bashrc
     color_pallet
     while true; do
         echo -n 'type color number: '
@@ -140,15 +141,15 @@ yes_or_no 'disable IPv6?' || {
     if [ -f /etc/rc.local ]; then
         sudo mv /etc/rc.local /etc/rc.local.back
     fi
-    sudo cp ./src/rc.local /etc/rc.local
+    sudo cp $srcdir/rc.local /etc/rc.local
     sudo chmod +x /etc/tc.local
 
-    sudo cp ./src/90-disable-ipv6.conf /etc/sysctl.d/
+    sudo cp $srcdir/90-disable-ipv6.conf /etc/sysctl.d/
     sudo sysctl --system
 }
 
-cat ./src/ros.bashrc >> $bashrc
-cat ./src/color_pallet.bashrc >> $bashrc
+cat $srcdir/ros.bashrc >> $bashrc
+cat $srcdir/color_pallet.bashrc >> $bashrc
 
 echo >> ~/.bashrc
 echo "source $bashrc" >> ~/.bashrc
