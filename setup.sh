@@ -79,7 +79,9 @@ yes_or_no 'setup prompt?' || {
         read ps_color
         if [ `expr "$ps_color" + 1 >/dev/null 2>&1 ; echo $?` -lt 2 ]; then
             yes_or_no "\033[38;5;${ps_color}mis this color ok?\033[0m" || {
-                cat ./src/prompt.bashrc >> $bashrc
+                echo "# prompt settings" >> $bashrc
+                echo "PS1_COLOR=${ps_color}" >> $bashrc
+                echo "PS1='\${debian_chroot:+(\$debian_chroot)}\[\033[38;5;\${PS1_COLOR}m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\\$ '" >> $bashrc
                 break
             }
         fi
