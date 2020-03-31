@@ -26,7 +26,6 @@ yes_or_no() {
 bashrc=~/.bashrc-alpaca-san
 
 cat ./src/aliases.bashrc >> $bashrc
-source ./src/color_pallet.bashrc
 alias sudo='sudo -E '
 
 line_sep
@@ -76,6 +75,7 @@ yes_or_no 'install pyenv?' || {
 
 line_sep
 yes_or_no 'setup prompt?' || {
+    source ./src/color_pallet.bashrc
     color_pallet
     while true; do
         echo -n 'type color number: '
