@@ -43,7 +43,10 @@ yes_or_no 'set proxy?' || {
 			sudo snap set system proxy.http="$proxy"
 			sudo snap set system proxy.https="$proxy"
 			# for .bashrc
-            cat ./src/proxy.bashrc >> $bashrc
+            echo "# proxy settings" >> $bashrc
+            echo "export http_proxy=$proxy" >> $bashrc
+            echo "export https_proxy=\$http_proxy" >> $bashrc
+            echo "export ftp_proxy=\$http_proxy" >> $bashrc
             # for this script
             export http_proxy=$proxy
             export https_proxy=$proxy
@@ -74,7 +77,7 @@ yes_or_no 'install pyenv?' || {
 line_sep
 yes_or_no 'setup prompt?' || {
     color_pallet
-    while true;　do
+    while true; do
         echo -n 'type color number: '
         read ps_color
         if [ `expr "$ps_color" + 1 >/dev/null 2>&1 ; echo $?` -lt 2 ]; then
