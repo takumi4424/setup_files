@@ -158,3 +158,5 @@ source ~/.bashrc
 SCRIPT_DIR=$(cd $(dirname $0); pwd)
 cp $SCRIPT_DIR/.inputrc ~/
 cp $SCRIPT_DIR/.vimrc ~/
+
+source ~/.bashrc
