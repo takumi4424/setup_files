@@ -132,6 +132,18 @@ yes_or_no 'install docker?' || {
 	fi
 }
 
+line_sep
+yes_or_no 'disable IPv6?' || {
+    if [ -f /etc/rc.local ]; then
+        sudo mv /etc/rc.local /etc/rc.local.back
+    fi
+    sudo cp ./src/rc.local /etc/rc.local
+    sudo chmod +x /etc/tc.local
+
+    sudo cp ./src/90-disable-ipv6.conf /etc/sysctl.d/
+    sudo sysctl --system
+}
+
 cat ./src/ros.bashrc >> $bashrc
 cat ./src/color_pallet.bashrc >> $bashrc
 
