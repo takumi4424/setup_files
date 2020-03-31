@@ -60,7 +60,7 @@ line_sep
 sudo apt update
 sudo apt upgrade -y
 line_sep
-sudo apt install -y vim net-tools openssh-server curl xsel apt-transport-https ca-certificates
+sudo apt install -y git vim net-tools openssh-server curl xsel apt-transport-https ca-certificates
 
 line_sep
 yes_or_no 'install pyenv?' || {
