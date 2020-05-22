@@ -128,10 +128,8 @@ yes_or_no 'install docker?' || {
 
 	if [ -n $http_proxy ]; then
 		# proxy settings for docker
-		sudo mkdir -p /etc/systemd/system/docker.service.d
-		echo -e "[Service]\nEnvironment=\"HTTP_PROXY=$http_proxy\""  | sudo tee /etc/systemd/system/docker.service.d/http-proxy.conf
-		echo -e "[Service]\nEnvironment=\"HTTPS_PROXY=$https_proxy\"" | sudo tee /etc/systemd/system/docker.service.d/https-proxy.conf
-		sudo systemctl daemon-reload
+		mkdir ~/.docker
+		sed -e s?\$http_proxy?$http_proxy? -e s?\$https_proxy?$https_proxy? $srcdir/config.json >> ~/.docker/config.json
 		sudo service docker restart 
 	fi
 }
