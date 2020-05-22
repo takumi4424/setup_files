@@ -9,3 +9,5 @@ if [ "$(uname -s)" == 'Linux' ]; then
   fi
 fi
 
+export EDITOR=vim
+
